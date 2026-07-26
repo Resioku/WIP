@@ -11,8 +11,11 @@
   <header>
     <h1>Z-IDLE RPG</h1>
     <div class="resource-bar">
-      <span>Power Level: <strong id="power-level">10</strong></span> | 
+      <span>Power Level: <strong id="power-level">60</strong></span> | 
       <span>TP: <strong id="tp-count">0</strong></span>
+    </div>
+    <div class="hp-bar-container">
+      <span>HP: <strong id="player-hp">200</strong> / <strong id="player-max-hp">200</strong></span>
     </div>
   </header>
 
@@ -27,20 +30,20 @@
     <section id="tab-stats" class="tab-content active">
       <h2>Character Stats</h2>
       <div class="stat-row">
-        <span>STR: <strong id="stat-str">10</strong></span>
+        <span>STR (Damage): <strong id="stat-str">10</strong></span>
         <button id="btn-buy-str" onclick="buyStat('str')">+1</button>
       </div>
       <div class="stat-row">
-        <span>WIL: <strong id="stat-wil">10</strong></span>
-        <button id="btn-buy-wil" onclick="buyStat('wil')">+1</button>
+        <span>CON (Health): <strong id="stat-con">10</strong></span>
+        <button id="btn-buy-con" onclick="buyStat('con')">+1</button>
       </div>
       <div class="stat-row">
-        <span>DEX: <strong id="stat-dex">10</strong></span>
+        <span>DEX (Dodge): <strong id="stat-dex">10</strong></span>
         <button id="btn-buy-dex" onclick="buyStat('dex')">+1</button>
       </div>
       <div class="stat-row">
-        <span>CON: <strong id="stat-con">10</strong></span>
-        <button id="btn-buy-con" onclick="buyStat('con')">+1</button>
+        <span>WIL (Power): <strong id="stat-wil">10</strong></span>
+        <button id="btn-buy-wil" onclick="buyStat('wil')">+1</button>
       </div>
     </section>
 
@@ -59,11 +62,10 @@
       <h2>Combat</h2>
       <div class="action-card">
         <h3>Shadow Dummy Sparring</h3>
-        <p>Enemy HP: <span id="enemy-hp">50</span>/<span id="enemy-max-hp">50</span></p>
-        <button onclick="attackEnemy()">Attack</button>
+        <p>Dummy HP: <span id="enemy-hp">50</span>/<span id="enemy-max-hp">50</span></p>
+        <button id="btn-attack" onclick="attackEnemy()">Attack</button>
       </div>
 
-      <!-- FORMS (Hidden by default) -->
       <div id="forms-section" style="display: none;">
         <hr>
         <div class="form-card">
