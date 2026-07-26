@@ -17,11 +17,10 @@ let player = {
 let enemy = {
   hp: 50,
   maxHp: 50,
-  atk: 5, // Enemy hits back!
-  isFighting: false
+  atk: 5
 };
 
-// Calculate Power Level dynamically from stats
+// Pure Stat -> Power Level Formula
 function calculatePowerLevel() {
   let pl = (player.stats.str * 1.5) + 
            (player.stats.con * 1.5) + 
@@ -30,7 +29,7 @@ function calculatePowerLevel() {
   return Math.floor(pl);
 }
 
-// Calculate Max HP dynamically from CON
+// CON -> Max HP Formula
 function calculateMaxHP() {
   return 100 + (player.stats.con * 10);
 }
@@ -50,61 +49,60 @@ function getStatCost(currentValue) {
   return Math.floor(STAT_BASE_COST * Math.pow(STAT_GROWTH_RATE, pointsBought));
 }
 
+// Buy Stat & Immediately Recalculate Everything
 function buyStat(stat) {
   let cost = getStatCost(player.stats[stat]);
   if (player.tp >= cost) {
     player.tp -= cost;
     player.stats[stat] += 1;
     
-    // Recalculate derived stats
+    // Recalculate Derived Values
+    let oldMaxHp = player.maxHp;
     player.maxHp = calculateMaxHP();
-    player.hp = player.maxHp; // Heal to full on stat upgrade
+    // Heal player by the newly gained max HP amount
+    player.hp += (player.maxHp - oldMaxHp); 
     player.powerLevel = calculatePowerLevel();
     
     updateUI();
   }
 }
 
-// Player Attacks Enemy
+// Attack Combat Loop
 function attackEnemy() {
-  // Deal damage based on STR
+  // Deal damage based strictly on STR
   let damage = player.stats.str;
   enemy.hp -= damage;
 
-  // Check if enemy defeated
+  // Enemy defeated check
   if (enemy.hp <= 0) {
     enemy.maxHp = Math.floor(enemy.maxHp * 1.25);
     enemy.atk = Math.floor(enemy.atk * 1.2);
     enemy.hp = enemy.maxHp;
-    player.hp = player.maxHp; // Full heal reward
-    alert("Target Defeated! The next Dummy gets stronger.");
+    player.hp = player.maxHp; // Full heal reward on victory
   } else {
-    // Enemy counter-attacks!
+    // Counter Attack
     enemyCounterAttack();
   }
 
   updateUI();
 }
 
-// Enemy Counter Attack Logic
 function enemyCounterAttack() {
-  // Chance to dodge based on DEX (caps at 50% dodge chance)
-  let dodgeChance = Math.min(player.stats.dex * 0.5, 50);
+  let dodgeChance = Math.min(player.stats.dex * 0.5, 50); // Max 50% cap
   let roll = Math.random() * 100;
 
   if (roll > dodgeChance) {
     player.hp -= enemy.atk;
   }
 
-  // Player Death Reset
+  // Player Defeat -> Reset Fight & Heal
   if (player.hp <= 0) {
-    alert("You were defeated! Resetting fight...");
     player.hp = player.maxHp;
     enemy.hp = enemy.maxHp;
   }
 }
 
-// Core Loop (Every 1 second)
+// Core Loop (1s Ticks)
 setInterval(() => {
   if (player.isTraining) {
     player.tp += 1;
@@ -112,29 +110,39 @@ setInterval(() => {
   updateUI();
 }, 1000);
 
+// UI Renderer
 function updateUI() {
+  // Recalculate before rendering
+  player.powerLevel = calculatePowerLevel();
+  player.maxHp = calculateMaxHP();
+
   document.getElementById('power-level').innerText = player.powerLevel;
   document.getElementById('tp-count').innerText = player.tp;
   document.getElementById('player-hp').innerText = Math.max(0, player.hp);
   document.getElementById('player-max-hp').innerText = player.maxHp;
 
-  // Update Stats
+  // Stats Display
   ['str', 'con', 'dex', 'wil'].forEach(stat => {
-    document.getElementById(`stat-${stat}`).innerText = player.stats[stat];
-    let cost = getStatCost(player.stats[stat]);
-    document.getElementById(`btn-buy-${stat}`).innerText = `+1 (${cost} TP)`;
+    let statElem = document.getElementById(`stat-${stat}`);
+    if (statElem) statElem.innerText = player.stats[stat];
+    
+    let btnElem = document.getElementById(`btn-buy-${stat}`);
+    if (btnElem) {
+      let cost = getStatCost(player.stats[stat]);
+      btnElem.innerText = `+1 (${cost} TP)`;
+    }
   });
 
-  // Update Combat
+  // Combat Display
   document.getElementById('enemy-hp').innerText = enemy.hp;
   document.getElementById('enemy-max-hp').innerText = enemy.maxHp;
 
-  if (player.kaiokenUnlocked) {
+  if (player.kaiokenUnlocked && document.getElementById('forms-section')) {
     document.getElementById('forms-section').style.display = 'block';
   }
 }
 
-// Initial setup
+// Initial State Setup
 player.maxHp = calculateMaxHP();
 player.hp = player.maxHp;
 player.powerLevel = calculatePowerLevel();
