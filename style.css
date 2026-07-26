@@ -54,6 +54,7 @@ button:hover {
   display: block;
 }
 
+/* Card layout tailored for narrow mobile screens */
 .stat-row, .action-card, .form-card {
   background: #1f1f1f;
   margin: 10px auto;
@@ -61,6 +62,9 @@ button:hover {
   border-radius: 8px;
   max-width: 400px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap:
+    10px;
 }
