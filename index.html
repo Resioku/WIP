@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z-Idle RPG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TOP HEADER & DISPLAY -->
+  <header>
+    <h1>Z-IDLE RPG</h1>
+    <div class="resource-bar">
+      <span>Power Level: <strong id="power-level">10</strong></span> | 
+      <span>TP: <strong id="tp-count">0</strong></span>
+    </div>
+  </header>
+
+  <!-- MAIN NAVIGATION -->
+  <nav>
+    <button onclick="showTab('stats')">Stats</button>
+    <button onclick="showTab('training')">Training</button>
+    <button onclick="showTab('combat')">Combat</button>
+  </nav>
+
+  <main>
+    <!-- STATS TAB -->
+    <section id="tab-stats" class="tab-content active">
+      <h2>Character Stats</h2>
+      <div class="stat-row">
+        <span>STR: <strong id="stat-str">10</strong></span>
+        <button onclick="buyStat('str')">+1 (10 TP)</button>
+      </div>
+      <div class="stat-row">
+        <span>WIL: <strong id="stat-wil">10</strong></span>
+        <button onclick="buyStat('wil')">+1 (10 TP)</button>
+      </div>
+    </section>
+
+    <!-- TRAINING TAB -->
+    <section id="tab-training" class="tab-content">
+      <h2>Training</h2>
+      <div class="action-card">
+        <h3>Image Training</h3>
+        <p>Generates 1 TP / sec</p>
+        <button id="btn-train" onclick="toggleTraining()">Start Training</button>
+      </div>
+    </section>
+
+    <!-- COMBAT TAB -->
+    <section id="tab-combat" class="tab-content">
+      <h2>Combat</h2>
+      <div class="action-card">
+        <h3>Shadow Sparring</h3>
+        <p>Enemy HP: <span id="enemy-hp">100</span>/100</p>
+        <button onclick="attackEnemy()">Attack</button>
+      </div>
+      
+      <hr>
+      
+      <div class="form-card">
+        <h3>Kaioken</h3>
+        <p>Mastery: Level <span id="kaioken-mastery">1</span></p>
+        <button id="btn-form" onclick="toggleForm()">Activate Kaioken</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</
+  html>
