@@ -89,18 +89,7 @@ function updateUI() {
 
   // Unlocks
   if (player.kaiokenUnlocked) {
-    document.getElementById('forms-section').style.display = 'block';
+    document.getElementById('forms-section').style.display = 
+      'block';
   }
-}
- }
-  updateUI();
-}, 1000);
-
-// UI Renderer
-function updateUI() {
-  document.getElementById('power-level').innerText = player.powerLevel;
-  document.getElementById('tp-count').innerText = player.tp;
-  document.getElementById('stat-str').innerText = player.stats.str;
-  document.getElementById('stat-wil').innerText = player.stats.wi
-    l;
 }
